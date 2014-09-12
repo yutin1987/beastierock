@@ -25,22 +25,25 @@
         background: #231815;
       }
       .view {
-        background: #21aa94;
+        /*background: #21aa94;*/
       }
       .left {
-        background-image: url('');
+        background-image: url('https://yutin1987.github.io/beastierock/www/images/left.jpg');
         background-size: cover;
         background-position: center center;
       }
       .right {
-        background-image: url('');
+        background-image: url('https://yutin1987.github.io/beastierock/www/images/right.jpg');
         background-size: cover;
         background-position: center center;
       }
       .footer {
-        background-image: url('');
+        background-image: url('https://yutin1987.github.io/beastierock/www/images/menu.jpg');
         background-size: cover;
         background-position: center center;
+      }
+      #player {
+        padding: 0;
       }
     </style>
 
@@ -53,6 +56,8 @@
         player_iframe.width(width);
         player_iframe.height(width * 0.6);
         player_iframe.attr('src', 'http://www.youtube.com/embed/RqEYjV_a79c?hd=1&autoplay=1');
+        $('.left').height(width * 0.48);
+        $('.right').height(width * 0.48);
       });
     </script>
   </head>
@@ -65,7 +70,7 @@
         <div class="col-md-8" id="player">
           <iframe id="player_iframe" type="text/html" width="100%" height="" src="" frameborder="0"></iframe>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 right">
           
         </div>
       </div>
