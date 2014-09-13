@@ -67,6 +67,9 @@
               console.log(position);
               var x = position.coords.latitude;
               var y = position.coords.longitude;
+              $.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + x + ',' + y, function (res) {
+                console.log(res);
+              });
             }, function() {
               alert('Sorry! We must know you not in Taiwan.')
             }
