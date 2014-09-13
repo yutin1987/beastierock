@@ -64,17 +64,17 @@
         $('.right').height(width * 0.48);
       });
       $(function(){
-        console.log(navigator.geolocation);
         if(navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             function(position) {
               var x = position.coords.latitude;
               var y = position.coords.longitude;
+              console.log(x, y);
+              console.log('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + x + ',' + y);
               $.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + x + ',' + y, function (res) {
-
                 var result = res.results;
                 for (var i = result.length - 1; i >= 0; i--) {
-                  if (/Taiwan/.exec(result[i].formatted_address)) {
+                  if (/Taiwan|台灣|臺灣/.exec(result[i].formatted_address)) {
                     $('#message').text('Sorry! you must not in Taiwan.');
                     return;
                   }
