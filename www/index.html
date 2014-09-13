@@ -25,6 +25,10 @@
       body {
         background: #231815;
       }
+      #message {
+        background: #FFFFEF;
+        padding: 8px;
+      }
       .view {
         /*background: #21aa94;*/
       }
@@ -56,7 +60,6 @@
         var width = player.width();
         player_iframe.width(width);
         player_iframe.height(width * 0.6);
-        player_iframe.attr('src', 'http://www.youtube.com/embed/RqEYjV_a79c?hd=1&autoplay=1');
         $('.left').height(width * 0.48);
         $('.right').height(width * 0.48);
       });
@@ -65,16 +68,26 @@
         if(navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             function(position) {
-              console.log(position);
               var x = position.coords.latitude;
               var y = position.coords.longitude;
-              // $.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + x + ',' + y, function (res) {
-                // console.log(res);
-              // });
+              $.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + x + ',' + y, function (res) {
+
+                var result = res.results;
+                for (var i = result.length - 1; i >= 0; i--) {
+                  if (/Taiwan/.exec(result[i].formatted_address)) {
+                    $('#message').text('Sorry! you must not in Taiwan.');
+                    return;
+                  }
+                };
+
+                $('#player_iframe').attr('src', 'http://www.youtube.com/embed/RqEYjV_a79c?hd=1&autoplay=1');
+                $('#message').remove();
+              });
             }, function(err) {
               console.log(err);
+              $('#message').text('Sorry! We must know you not in Taiwan.');
               alert('Sorry! We must know you not in Taiwan.')
-            }
+            }, {timeout:60000}
           );
         } else {
         }
@@ -88,6 +101,9 @@
           
         </div>
         <div class="col-md-8" id="player">
+          <div id="message">
+            Get locations...
+          </div>
           <iframe id="player_iframe" type="text/html" width="100%" height="" src="" frameborder="0"></iframe>
         </div>
         <div class="col-md-2 right">
