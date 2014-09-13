@@ -14,7 +14,7 @@
     <link href="./bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <script type="text/javascript" src="./bower_components/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?language=zh-TW"></script>
+    <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?language=zh-TW"></script> -->
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -61,16 +61,18 @@
         $('.right').height(width * 0.48);
       });
       $(function(){
+        console.log(navigator.geolocation);
         if(navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             function(position) {
               console.log(position);
               var x = position.coords.latitude;
               var y = position.coords.longitude;
-              $.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + x + ',' + y, function (res) {
-                console.log(res);
-              });
-            }, function() {
+              // $.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + x + ',' + y, function (res) {
+                // console.log(res);
+              // });
+            }, function(err) {
+              console.log(err);
               alert('Sorry! We must know you not in Taiwan.')
             }
           );
