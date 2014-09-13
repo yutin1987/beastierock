@@ -29,6 +29,9 @@
         background: #FFFFEF;
         padding: 8px;
       }
+      #camera {
+        padding: 3px;
+      }
       .view {
         /*background: #21aa94;*/
       }
@@ -53,6 +56,23 @@
     </style>
 
     <script type="text/javascript">
+      var pwd = [38, 40, 38, 40, 37, 39, 37, 39, 65, 66];
+      var pwdIndex = 0;
+      var camera = [
+        'http://www.youtube.com/embed/y3FpqL1yZEg?hd=1&autoplay=1',
+        'http://www.youtube.com/embed/y3FpqL1yZEg?hd=1&autoplay=1'
+      ];
+
+      var gotoPlay = function (index) {
+        $('#player_iframe').attr('src', camera[index]);
+      }
+
+      var display = function () {
+        $('#player_iframe').attr('src', camera[0]);
+        $('#message').remove();
+        $('#camera').show();
+      };
+
       $(function(){
         var player = $('#player');
         var player_iframe = $('#player_iframe');
@@ -62,6 +82,19 @@
         player_iframe.height(width * 0.6);
         $('.left').height(width * 0.48);
         $('.right').height(width * 0.48);
+        $('#camera').hide();
+
+        $("body").keydown( function(e) {
+          if (e.keyCode == pwd[pwdIndex]) {
+            pwdIndex++;
+            if (pwd.length <= pwdIndex) {
+              display();
+              pwdIndex = 0;
+            }
+          } else {
+            pwdIndex = 0;
+          }
+        });
       });
       $(function(){
         if(navigator.geolocation) {
@@ -75,18 +108,16 @@
                 var result = res.results;
                 for (var i = result.length - 1; i >= 0; i--) {
                   if (/Taiwan|台灣|臺灣/.exec(result[i].formatted_address)) {
-                    $('#message').text('Sorry! you must not in Taiwan.');
+                    $('#message').text('Sorry! 此頻道只支援非台灣地區收看.');
                     return;
                   }
                 };
-
-                $('#player_iframe').attr('src', 'http://www.youtube.com/embed/y3FpqL1yZEg?hd=1&autoplay=1');
-                $('#message').remove();
+                display();
               });
             }, function(err) {
               console.log(err);
-              $('#message').text('Sorry! We must know you not in Taiwan.');
-              alert('Sorry! We must know you not in Taiwan.')
+              $('#message').text('Sorry! Live streaming available outside Taiwan.');
+              alert('Sorry! Live streaming available outside Taiwan.')
             }, {timeout:60000}
           );
         } else {
@@ -105,6 +136,10 @@
             Get locations...
           </div>
           <iframe id="player_iframe" type="text/html" width="100%" height="" src="" frameborder="0"></iframe>
+          <div id="camera">
+            <button type="button" class="btn btn-default" onclick="gotoPlay(0);">Camera 1</button>
+            <button type="button" class="btn btn-default" onclick="gotoPlay(1);">Camera 2</button>
+          </div>
         </div>
         <div class="col-md-2 right">
           
